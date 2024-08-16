@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { useQuery } from "react-query";
 import FetchCountryRegion from "../../data/fetchCountryRegion";
 import { useEffect, useState } from "react";
-
-export default function LocationDropdown({ loading, country }) {
-  const { inputData, setInputData, setCenterCoords, centerCoords, api_key } =
-    useGlobalContext();
+import ClipLoader from "react-spinners/ClipLoader";
+export default function LocationDropdown({ country }) {
+  const { inputData, setInputData, setCenterCoords, centerCoords, api_key } = useGlobalContext();
+  const [loading, setLoading] = useState(true);
   const [all_cities, setCities] = useState();
   // const { data:regions } = useQuery({
   //     queryFn: async () => FetchCountryRegion( "e0ab32cf-7bd2-47e7-b2af-2448262ec41e", country),
@@ -17,11 +17,13 @@ export default function LocationDropdown({ loading, country }) {
 
   useEffect(() => {
     async function getCities() {
+      setLoading(true);
       const regions = await FetchCountryRegion(api_key, country);
       setCities(regions?.data?.data);
       // console.log("key",api_key)
       // console.log(country)
       // console.log("all_cities",all_cities)
+      setLoading(false);
     }
     getCities();
   }, [country]);
@@ -31,13 +33,12 @@ export default function LocationDropdown({ loading, country }) {
   const handleChange = (e) => {
     setInputData({ ...inputData, city: all_cities[e.target.value].name });
     console.log("dsdsdddddddd", all_cities[e.target.value].name.toLowerCase());
-    
+
     // sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
     sessionStorage.setItem(
       "region",
       all_cities[e.target.value].name.toLowerCase()
     );
-
 
     setCenterCoords({
       ...centerCoords,
@@ -1095,22 +1096,33 @@ export default function LocationDropdown({ loading, country }) {
 
   const cities = data?.data;
   return (
-    <select
-      disabled={loading}
-      id="country"
-      name="country"
-      value={all_cities?.findIndex((city) => city.name === inputData.city)}
-      autoComplete="country-name"
-      onChange={(e) => handleChange(e)}
-      className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
-    >
-      <option>Select region</option>
-      {all_cities?.map((item, index) => (
-        <option value={index} key={index}>
-          {item.name}
-        </option>
-      ))}
-    </select>
+    <div className="relative w-[15vw]">
+      <select
+        disabled={loading}
+        id="country"
+        name="country"
+        value={all_cities?.findIndex((city) => city.name === inputData.city)}
+       
+        autoComplete="country-name"
+        onChange={(e) => handleChange(e)}
+        className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
+      >
+        <option>Select region</option>
+        {all_cities?.map((item, index) => (
+          <option value={index} key={index}>
+            {item.name}
+          </option>
+        ))}
+      </select>                                                                                                                                                                                                                                                                                                                             
+      {loading && (
+        <ClipLoader
+          color="#000000"
+          loading={loading}
+          size={20}
+          className="absolute right-6 top-1/4 transform -translate-y-1/2"
+        />
+      )}
+    </div>
   );
 }
 

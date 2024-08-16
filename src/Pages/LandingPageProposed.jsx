@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
+import Circle from "../components/Circle";
 import {
   CircleMarker,
   MapContainer,
@@ -34,11 +35,11 @@ import payload, { payload2 } from "./payload";
 import CountryDropdown from "../components/Dropdown/CountryDropdown";
 import LocationDropdown from "../components/Dropdown/LocationDropdown";
 import Category from "../components/Categories";
-
+import RadiusSlider from "../components/RadiusSlider";
 import axios from "axios";
 import errorImage from "../assets/error.png";
 
-import { computeDestinationPoint } from 'geolib';
+import { computeDestinationPoint } from "geolib";
 
 const LandingPage = () => {
   const [searchRegion, setSearchRegion] = useState(null);
@@ -62,7 +63,8 @@ const LandingPage = () => {
 
   const [pageload, setPageLoad] = useState(true);
   const [pageError, setPageError] = useState(null);
-
+  const [widthOfCostumeTracker, setWidthOfCostumeTracker] = useState("50px")
+  const [heightOfCostumeTracker, setHeightOfCostumeTracker] = useState("50px")
   const context = useGlobalContext();
   // console.log("context Value: ", context);
   const {
@@ -118,16 +120,15 @@ const LandingPage = () => {
     // Define the function to fetch data
     const fetchData = async () => {
       const queryParams = new URLSearchParams(window.location.search);
-      const session_id = queryParams.get('session_id');
+      const session_id = queryParams.get("session_id");
       let user_details;
 
       if (session_id) {
         const formData = {
-          "session_id": session_id
-        }
+          session_id: session_id,
+        };
 
         for (let i = 0; i <= 3; i++) {
-
           console.log("the number of trys is-", i);
           try {
             const response = await axios.post(
@@ -137,33 +138,28 @@ const LandingPage = () => {
                 headers: {
                   "Content-Type": "application/json",
                 },
-
               }
             );
             user_details = response?.data?.userinfo;
             if (user_details) {
-
               sessionStorage.setItem("user_info", JSON.stringify(user_details));
               console.log("the user_details", user_details);
               break;
             }
-          }
-          catch (error) {
+          } catch (error) {
             console.log("error is", error);
           }
         }
         if (!user_details) {
-          setPageError("Error fetching User Data, click to reload")
+          setPageError("Error fetching User Data, click to reload");
         }
         setPageLoad(false);
-      }
-      else {
+      } else {
         setPageLoad(false);
       }
     };
 
     fetchData();
-
   }, []);
 
   const handleEmailConfirm = () => {
@@ -185,32 +181,30 @@ const LandingPage = () => {
   };
 
   const handleSearch = async () => {
-    if (!isValidInput(inputData)) {
-      alert("please fill all the fields");
-      return;
-    }
-    if (Number(inputData.radius1) > Number(inputData.radius2)) {
-      alert("'From' has to be larger than 'To'");
-      return;
-    }
+    // if (!isValidInput(inputData)) {
+    //   alert("please fill all the fields");
+    //   return;
+    // }
+    // if (Number(inputData.radius1) > Number(inputData.radius2)) {
+    //   alert("'From' has to be larger than 'To'");
+    //   return;
+    // }
 
     // if (scale < 500 || scale > 2000) {
     //   alert("'Scale should be between 500 and 2000");
     //   return;
     // }
 
-    const small_radius = inputData.radius2 / 2
-
+    const small_radius = inputData.radius2 / 2;
 
     console.log("small_radius is", small_radius);
 
-
-    const no_iterations = 4
+    const no_iterations = 4;
     const no_iterations_rounded = Math.ceil(no_iterations);
 
     let maps_places = [];
-    let unique_ids = [], response_ids=[];
-
+    let unique_ids = [],
+      response_ids = [];
 
     console.log("the maps places before search", maps_places.length);
     console.log("the maps places are", maps_places);
@@ -224,14 +218,14 @@ const LandingPage = () => {
     let newCoords;
 
     for (i = 1; i < no_iterations + 1; i++) {
-      console.log("former cords are", centerCoords)
+      console.log("former cords are", centerCoords);
 
-      newCoords = computeDestinationPoint({ latitude: centerCoords.lat, longitude: centerCoords.lon }, small_radius, ((i -1)* 90));
+      newCoords = computeDestinationPoint(
+        { latitude: centerCoords.lat, longitude: centerCoords.lon },
+        small_radius,
+        (i - 1) * 90
+      );
       console.log("the new cords are", newCoords);
-
-
-
-     
 
       try {
         const searchOptions = {
@@ -245,12 +239,13 @@ const LandingPage = () => {
         };
         console.log("the search options are", searchOptions);
         const response = await FetchNearby(searchOptions);
-        response_ids = response.data.place_id_list
+        response_ids = response.data.place_id_list;
 
-        response_ids = response_ids.filter(item => !unique_ids.includes(item));
+        response_ids = response_ids.filter(
+          (item) => !unique_ids.includes(item)
+        );
         console.log("unique length is", response_ids);
-        unique_ids = [...unique_ids, ...response_ids]
-
+        unique_ids = [...unique_ids, ...response_ids];
 
         if (response_ids?.length > 0) {
           const placeDetailOptions = {
@@ -319,7 +314,6 @@ const LandingPage = () => {
     console.log("the maps places after search", maps_places.length);
     console.log("the maps places", maps_places);
     setPlaceDetails(maps_places);
-
   };
 
   const isValidInput = (inputData) => {
@@ -327,8 +321,8 @@ const LandingPage = () => {
     return (
       inputData.country !== "" &&
       inputData.city !== "" &&
-      inputData.radius1 !== "" &&
-      inputData.radius2 !== "" &&
+      // inputData.radius1 !== "" &&
+      // inputData.radius2 !== "" &&
       inputData.query_string !== ""
     );
   };
@@ -491,8 +485,43 @@ const LandingPage = () => {
           Try Again
         </button>
       </div>
-    )
+    );
   }
+function getMetersPerPixel(latitude, zoomLevel) {
+     return (156543.03392 * Math.cos(latitude * Math.PI / 180)) / Math.pow(2, zoomLevel);
+ }
+ 
+ function calculatePixelWidth(value, latitude, zoomLevel) {
+     const maxMeters = 15000; // Maximum meters the circle should cover at value 100
+     const metersPerPixel = getMetersPerPixel(latitude, zoomLevel);
+ 
+     // Linear mapping from value (1 to 100) to meters (0 to 15,000)
+     const metersCovered = (value / 100) * maxMeters;
+ 
+     // Convert meters to pixel width
+     const pixelWidth = metersCovered / metersPerPixel;
+ 
+     return pixelWidth;
+ }
+ 
+//  let value = 50; // Example value should be range value
+//  let latitude = 40.7128; // Latitude for New York City of map
+//  let zoomLevel = 12; // Example zoom level of map
+ 
+//  let pixelWidth = calculatePixelWidth(value, latitude, zoomLevel);
+//  console.log("Pixel width for value " + value + ":", pixelWidth);
+  const handleRadiusChange = (newValue) => {
+    const valueAsNumber = Number(newValue);
+    const pixel = calculatePixelWidth(valueAsNumber,48.856614, 12)
+    console.log(pixel)
+    setHeightOfCostumeTracker(`${Math.floor(pixel)}px`)
+    setWidthOfCostumeTracker(`${Math.floor(pixel)}px`)
+    setInputData((prevData) => ({
+      ...prevData,
+      radius2: valueAsNumber, 
+
+    }));
+  };
 
   return receivedKey != "ENTER API KEY" ? (
     <Layout>
@@ -508,6 +537,7 @@ const LandingPage = () => {
               Samanta will do surveys in 150000 locations worldwide
             </h6>
           </div>
+          
           <div className="w-full h-96">
             {/* {placeDetails.length > 0 ? (
               <MainMap
@@ -520,31 +550,41 @@ const LandingPage = () => {
             ) : (
               <MainMap pins={null} />
             )} */}
-                            <MainMap centerCords={{
-                                lat: centerCoords.lat,
-                                lng: centerCoords.lon
-                            }} pins={null} />
-
+            <MainMap
+              centerCords={{
+                lat: centerCoords.lat,
+                lng: centerCoords.lng
+              }}
+              widthOfCostumeTracker={widthOfCostumeTracker} heightOfCostumeTracker= {heightOfCostumeTracker}
+              pins={null}
+            />
           </div>
+          {/* <Circle width={widthOfCostumeTracker} height={heightOfCostumeTracker}/> */}
           <div className="bg-[#282B32] my-4 pt-2 pb-4 space-y-2">
             <div className="grid grid-cols-3 gap-x-6 gap-y-2">
               <div className="flex justify-center">
+                {/* create loader spinner when countries are still being loaded from api */}
                 <div>
-                <h2 className="font-semibold text-white">Country</h2>
-                <CountryDropdown loading={loading} />
-
+                  <h2 className="font-semibold text-white">Country</h2>
+                  <CountryDropdown loading={loading} />
                 </div>
-
               </div>
+              {/* map radius slider */}
+              <RadiusSlider
+                // Pass the current radius to the slider
+                
+                // Update radius2 when slider changes
+                onRadiusChange={handleRadiusChange}
+                disabled={false}
+              />
 
-              
-              <div>
+              {/* <div>
                 <h2 className="font-semibold text-white text-center">
                   Set Distance(m) from Location's Center
                 </h2>
                 <div className="flex justify-center space-x-1">
                   <input
-                    type="text"
+                    type="range"
                     className="w-[21vh] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
                     placeholder="From"
                     value={inputData.radius1}
@@ -557,7 +597,7 @@ const LandingPage = () => {
                     disabled={loading}
                   />
                   <input
-                    type="text"
+                    type="range"
                     className="w-[21vh] bg-[#D9D9D9] px-3 py-[0.25rem] outline-none"
                     placeholder="To"
                     value={inputData.radius2}
@@ -570,44 +610,35 @@ const LandingPage = () => {
                     disabled={loading}
                   />
                 </div>
-              </div>
-
-              <div className="flex justify-center">
-              <div>
-                <h2 className="font-semibold text-white">Calibration</h2>
-                <select
-                  disabled={loading}
-                  id="caliberation"
-                  name="caliberation"
-                  value={caliberation}
-                  //autoComplete="country-name"
-                  onChange={(e) => {
-                    setCaliberation(e.target.value);
-                  }}
-                  className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
-                >
-                  <option value="area">area</option>
-                  <option value="radius">radius</option>
-                </select>
-              </div>
-
-              </div>
+              </div> */}
 
               <div className="flex justify-center">
                 <div>
-                <h2 className="font-semibold text-white">Region</h2>
-                <LocationDropdown
-                  loading={loading}
-                  country={'france'}
-                />
-
+                  <h2 className="font-semibold text-white">Calibration</h2>
+                  <select
+                    disabled={loading}
+                    id="caliberation"
+                    name="caliberation"
+                    value={caliberation}
+                    //autoComplete="country-name"
+                    onChange={(e) => {
+                      setCaliberation(e.target.value);
+                    }}
+                    className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
+                  >
+                    <option value="area">area</option>
+                    <option value="radius">radius</option>
+                  </select>
                 </div>
-
               </div>
 
-
-            
-          
+              <div className="flex justify-center">
+                {/* create loader spinner when regions are still being loaded from api */}
+                <div>
+                  <h2 className="font-semibold text-white">Region</h2>
+                  <LocationDropdown loading={loading} country={"france"} />
+                </div>
+              </div>
 
               {/* <div>
                 <h2 className="font-semibold text-white">Set Scale</h2>
@@ -622,28 +653,22 @@ const LandingPage = () => {
               </div> */}
 
               <div className="flex items-end justify-center">
-              <button
-                className="text-white font-semibold bg-[#3B82F6] h-[33px] w-[100px] rounded-sm"
-                onClick={handleSearch}
-                disabled={loading}
-              >
-                {loading ? "Loading..." : "Search"}
-              </button>
-
+                <button
+                  className="text-white font-semibold bg-[#3B82F6] h-[33px] w-[100px] rounded-sm"
+                  onClick={handleSearch}
+                  disabled={loading}
+                >
+                  {loading ? "Loading..." : "Search"}
+                </button>
               </div>
-
 
               <div className="flex justify-center">
-              <div>
-                <h2 className="font-semibold text-white">Category</h2>
-                <Category loading={loading} />
+                <div>
+                  <h2 className="font-semibold text-white">Category</h2>
+                  <Category loading={loading} />
+                </div>
               </div>
-
-              </div>
-
-            
             </div>
-
           </div>
 
           <div className="flex justify-between space-x-4">
@@ -662,7 +687,7 @@ const LandingPage = () => {
                       //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
                       onClick={loadMore}
                       disabled={loading}
-                    //disabled={surveys.length < 1 ? true : false}
+                      //disabled={surveys.length < 1 ? true : false}
                     >
                       {loading ? "Loading..." : "Load More"}
                     </button>
@@ -704,7 +729,7 @@ const LandingPage = () => {
                       className={
                         "mx-1 w-[270px] md:w-[180px] lg:w-[200px] mt-[30px] h-auto border border-[#B3B4BB]" +
                         (surveys.findIndex((obj) => obj.placeId === placeId) ===
-                          -1
+                        -1
                           ? " bg-white text-black"
                           : " bg-[#005734] text-white")
                       }
@@ -791,7 +816,7 @@ const LandingPage = () => {
               </div> */}
 
               <div className="m-2">
-              <div className="flex justify-center items-center p-2">
+                <div className="flex justify-center items-center p-2">
                   {surveys.length < 1 ? (
                     <div className="flex flex-col items-center justify-center">
                       <button
@@ -799,7 +824,7 @@ const LandingPage = () => {
                         className={`rounded-md mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
                         //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
                         onClick={handleConfirmSelection}
-                      //disabled={surveys.length < 1 ? true : false}
+                        //disabled={surveys.length < 1 ? true : false}
                       >
                         Skip & Proceed
                       </button>
@@ -813,7 +838,7 @@ const LandingPage = () => {
                       className={`mb-2 w-[150px] h-[30px] font-serif font-bold opacity-80 hover:opacity-100 text-center text-sm md:text-md text-white bg-[#005734]`}
                       //disabled={surveys.findIndex((obj) => obj.id === id) !== -1}
                       onClick={handleConfirmSelection}
-                    //disabled={surveys.length < 1 ? true : false}
+                      //disabled={surveys.length < 1 ? true : false}
                     >
                       Confirm Selection
                     </button>
@@ -854,8 +879,6 @@ const LandingPage = () => {
                     </button>
                   </div>
                 ))}
-
-
               </div>
             </div>
           </div>

@@ -2,23 +2,26 @@ import { useGlobalContext } from "../../Context/PreviewContext";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import FetchCountries from "../../data/fetchCountries";
+import ClipLoader from "react-spinners/ClipLoader";
 
-export default function CountryDropdown({ loading }) {
+export default function CountryDropdown() {
+  const [loading, setLoading] = useState(true);
   const { setInputData, inputData, api_key } = useGlobalContext();
   const [allCountries, setAllCountries] = useState();
   // const { data } = useQuery({
   //     queryFn: async () => FetchCountries(""),
   //     queryKey: 'countries'
   // }, [])
-  useEffect(()=>{
-    async function getCountries(){
+  useEffect(() => {
+    async function getCountries() {
+      setLoading(true)
       const response = await FetchCountries(api_key);
-      setAllCountries(response?.data?.data[0]?.countries)
+      setAllCountries(response?.data?.data[0]?.countries);
       //console.log(response?.data?.data[0]?.countries)
-      
+      setLoading(false);
     }
     getCountries();
-  },[])
+  }, []);
   const data = {
     data: [
       {
@@ -282,22 +285,33 @@ export default function CountryDropdown({ loading }) {
   };
   const countries = data?.data[0]?.countries;
   return (
-    <select
-      disabled={loading}
-      id="country"
-      name="country"
-      value={inputData.country}
-      autoComplete="country-name"
-      onChange={(e) => {
-        sessionStorage.setItem("country", JSON.stringify(e.target.value));
-        setInputData({ ...inputData, country: e.target.value })}}
-      className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
-    >
-      <option>France</option>
-      {/* {allCountries?.map((item, index) => (
+    <div className="relative w-[15vw]">
+      <select
+        disabled={loading}
+        id="country"
+        name="country"
+        value={inputData.country}
+        autoComplete="country-name"
+        onChange={(e) => {
+          sessionStorage.setItem("country", JSON.stringify(e.target.value));
+          setInputData({ ...inputData, country: e.target.value });
+        }}
+        className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
+      >
+        <option>{loading ? "Loading..." : "France"}</option>
+        {/* {allCountries?.map((item, index) => (
         <option key={index}>{item}</option>
       ))} */}
-    </select>
+      </select>
+      {loading && (
+        <ClipLoader
+          color="#000000"
+          loading={loading}
+          size={20}
+          className="absolute right-6 top-1/4 transform -translate-y-1/2"
+        />
+      )}
+    </div>
   );
 }
 
