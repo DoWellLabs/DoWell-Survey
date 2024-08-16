@@ -1,0 +1,13 @@
+.form__body {
+    /* font-family: "Arial", sans-serif; */
+    background-color: #f4f4f4;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .form__p {
+    font-size: 20px;
+    line-height: 1.5;
+    color: #333;
+  }

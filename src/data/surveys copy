@@ -1,0 +1,107 @@
+const surveys = [{
+    places: [{
+        name: "Altos Bakery",
+        coordinates: [14.74343, 38.4],
+        radius: 30,
+        category: "Resturant and bar",
+    },
+    {
+        name: "Baktos Bakery",
+        coordinates: [36.74343, 52.4],
+        radius: 10,
+        category: "Resturant and bar",
+    },
+    {
+        name: "faroukads Bakery",
+        coordinates: [25.7, 21.4],
+        radius: 30,
+        category: "Resturant and bar",
+    },
+    {
+        name: "Alimnos Bakery",
+        coordinates: [10.74343, 32.8],
+        radius: 50,
+        category: "Resturant and bar",
+    }],
+    link: "https://docs.go....",
+    participant_limit: 30,
+    brand_name: "Coffee Survey",
+    promotional: "Thanks for filling",
+    start_date: "23-05-24",
+    end_date: "13-12-24",
+},
+{
+    places: [{
+        name: "Caramel Schoold",
+        coordinates: [4.7, 34.4],
+        radius: 70,
+        category: "Resturant and bar",
+    },
+    {
+        name: "Eidenburg Academy",
+        coordinates: [22.7, 52.4],
+        radius: 10,
+        category: "Resturant and bar",
+    }],
+    link: "https://docs.go....",
+    participant_limit: 40,
+    brand_name: "Survey on Books and Schools",
+    promotional: "Thanks for filling",
+    start_date: "23-05-24",
+    end_date: "3-08-24",
+},
+{
+    places: [{
+        name: "Changam s Bakery",
+        coordinates: [14.7343, 54.4],
+        radius: 10,
+        category: "Resturant and bar",
+    },
+    {
+        name: "HospBaktos Center",
+        coordinates: [17.74343, 52.4],
+        radius: 40,
+        category: "Resturant and bar",
+    },
+    {
+        name: "Muusem and Tech",
+        coordinates: [16.7, 51.4],
+        radius: 30,
+        category: "Resturant and bar",
+    },
+    {
+        name: "Ragos Amusement Park",
+        coordinates: [15.74343, 52.8],
+        radius: 20,
+        category: "Resturant and bar",
+    }],
+    link: "https://docs.go....",
+    participant_limit: 60,
+    brand_name: "Stadium Experiences",
+    promotional: "Thanks for filling",
+    start_date: "23-05-24",
+    end_date: "4-06-24",
+},
+{
+    places: [{
+        name: "CarameValisl Care",
+        coordinates: [53.7609, 98.8139],
+        radius: 45,
+        category: "Resturant and bar",
+    },
+    {
+        name: "Valis Academy",
+        coordinates: [-22.69473, 117.79027],
+        radius: 90,
+        category: "Resturant and bar",
+    }],
+    link: "https://docs.go....",
+    participant_limit: 30,
+    brand_name: "Church Survey",
+    promotional: "Thanks for filling",
+    start_date: "23-05-24",
+    end_date: "3-06-24",
+}
+]
+
+export default surveys;

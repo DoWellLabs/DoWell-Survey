@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Survey Confirmation</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      }
+      p {
+        margin-top: 30px;
+      }
+      .details {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333;
+        margin-top: 50px;
+      }
+      .qr-code {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Dear User,</p>
+    <p>
+      This is to confirm that your survey, <strong>${surveyData1.name}</strong>,
+      has been successfully created on our platform. Below, you'll find the
+      details of your survey. You can share the QR Code/Link with your intended
+      participants or platform to start gathering responses.
+    </p>
+    <div class="details">
+      <ul>
+        <li>Start Date: <strong>${surveyData1.startDate}</strong></li>
+        <li>End Date: <strong>${surveyData1.endDate}</strong></li>
+        <li>
+          Maximum Number of Participants/Responses:
+          <strong>${numOfParticipant}</strong>
+        </li>
+        <li>
+          Target Location/Audience:
+          <strong>${surveyData1.targetLocation}</strong>
+        </li>
+        <li>QR Code Link: <strong>${getQrcode}</strong></li>
+      </ul>
+    </div>
+    <h2>QR Code:</h2>
+    <img
+      src="${getQrcode}"
+      alt="QR Code"
+      style="max-width: 200px; height: 200px"
+    />
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Current Address</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsH8omDk8y0lSGLTW9YtZiiQ2MkmsF-uQ&libraries=places"></script>
+</head>
+<body>
+    <h1>Current Address:</h1>
+    <p id="address"></p>
+
+    <script>
+        // Function to get current address
+        function getCurrentAddress() {
+            // Check if geolocation is supported
+            if (navigator.geolocation) {
+                // Get current position
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // Get latitude and longitude
+                    var latlng = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    // Initialize geocoder
+                    var geocoder = new google.maps.Geocoder();
+
+                    // Geocode coordinates to get address
+                    geocoder.geocode({ 'location': latlng }, function(results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                var the_region = findRegion(results[0].address_components);
+                                // Display address
+                                document.getElementById('address').innerHTML = the_region;
+                                console.log("oh wooooooooow", results[0]);
+                            } else {
+                                alert('No results found');
+                            }
+                        } else {
+                            alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        function findRegion(addressComponents) {
+            for (var i = 0; i < addressComponents.length; i++) {
+                var component = addressComponents[i];
+                if (component.types.includes('administrative_area_level_1')) {
+                    return component.long_name;
+                }
+            }
+            return 'Region not found';
+        }
+        // Call the function to get current address
+        getCurrentAddress();
+    </script>
+</body>
+</html>
