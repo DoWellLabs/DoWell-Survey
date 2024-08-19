@@ -301,12 +301,12 @@ const LandingPage = () => {
     // setArea({ area_of_one: area_of_one, area_inner: area_inner });
     setSearchData({
       center_lat: centerCoords.lat,
-      center_lon: centerCoords.lon,
+      center_lng: centerCoords.lng,
       query_string: inputData.query_string,
       radius2: inputData.radius2,
     });
 
-    const search_cords = centerCoords.lat + "," + centerCoords.lon;
+    const search_cords = centerCoords.lat + "," + centerCoords.lng;
     setSearchCords(search_cords);
 
     setSearchRegion(inputData.city);
@@ -636,7 +636,7 @@ function getMetersPerPixel(latitude, zoomLevel) {
                 {/* create loader spinner when regions are still being loaded from api */}
                 <div>
                   <h2 className="font-semibold text-white">Region</h2>
-                  <LocationDropdown loading={loading} country={"france"} />
+                  <LocationDropdown loading={loading} country={inputData.country}  />
                 </div>
               </div>
 

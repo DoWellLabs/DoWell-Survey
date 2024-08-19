@@ -5,7 +5,8 @@ import FetchCountryRegion from "../../data/fetchCountryRegion";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 export default function LocationDropdown({ country }) {
-  const { inputData, setInputData, setCenterCoords, centerCoords, api_key } = useGlobalContext();
+  const { inputData, setInputData, setCenterCoords, centerCoords, api_key } =
+    useGlobalContext();
   const [loading, setLoading] = useState(true);
   const [all_cities, setCities] = useState();
   // const { data:regions } = useQuery({
@@ -18,33 +19,49 @@ export default function LocationDropdown({ country }) {
   useEffect(() => {
     async function getCities() {
       setLoading(true);
-      const regions = await FetchCountryRegion(api_key, country);
-      setCities(regions?.data?.data);
-      // console.log("key",api_key)
-      // console.log(country)
-      // console.log("all_cities",all_cities)
-      setLoading(false);
+      try {
+        const regions = await FetchCountryRegion(api_key, country);
+        console.log("Fetched regions:", regions);
+        if (regions?.data?.data) {
+          setCities(regions.data.data);
+        } else {
+          console.error("No city data received");
+        }
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      } finally {
+        setLoading(false);
+      }
     }
     getCities();
-  }, [country]);
+  }, [country, api_key]);
   // const regions = null;
   // console.log("country",country)
 
   const handleChange = (e) => {
-    setInputData({ ...inputData, city: all_cities[e.target.value].name });
-    console.log("dsdsdddddddd", all_cities[e.target.value].name.toLowerCase());
+    const selectedCity = all_cities.find(city => city.name === e.target.value);
+    setInputData({ ...inputData, city: selectedCity.name });
+    console.log("cities", all_cities[e.target.value].name.toLowerCase());
+    if (selectedCity) {
+      setInputData({ ...inputData, city: selectedCity.name });
+      setCenterCoords({
+        ...centerCoords,
+        lat: selectedCity.lat,
+        lng: selectedCity.lng,
+      });
+      sessionStorage.setItem("region", selectedCity.name.toLowerCase());
+    }
+    // // sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
+    // sessionStorage.setItem(
+    //   "region",
+    //   all_cities[e.target.value].name.toLowerCase()
+    // );
 
-    // sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
-    sessionStorage.setItem(
-      "region",
-      all_cities[e.target.value].name.toLowerCase()
-    );
-
-    setCenterCoords({
-      ...centerCoords,
-      lat: all_cities[e.target.value].lat,
-      lon: all_cities[e.target.value].lon,
-    });
+    // setCenterCoords({
+    //   ...centerCoords,
+    //   lat: all_cities[e.target.value].lat,
+    //   lon: all_cities[e.target.value].lon,
+    // });
   };
   const data = {
     data: [
@@ -1102,7 +1119,6 @@ export default function LocationDropdown({ country }) {
         id="country"
         name="country"
         value={all_cities?.findIndex((city) => city.name === inputData.city)}
-       
         autoComplete="country-name"
         onChange={(e) => handleChange(e)}
         className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
@@ -1113,7 +1129,7 @@ export default function LocationDropdown({ country }) {
             {item.name}
           </option>
         ))}
-      </select>                                                                                                                                                                                                                                                                                                                             
+      </select>
       {loading && (
         <ClipLoader
           color="#000000"
