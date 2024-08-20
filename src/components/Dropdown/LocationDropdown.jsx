@@ -5,8 +5,7 @@ import FetchCountryRegion from "../../data/fetchCountryRegion";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 export default function LocationDropdown({ country }) {
-  const { inputData, setInputData, setCenterCoords, centerCoords, api_key } =
-    useGlobalContext();
+  const { inputData, setInputData, setCenterCoords, centerCoords, api_key } = useGlobalContext();
   const [loading, setLoading] = useState(true);
   const [all_cities, setCities] = useState();
   // const { data:regions } = useQuery({
@@ -21,47 +20,38 @@ export default function LocationDropdown({ country }) {
       setLoading(true);
       try {
         const regions = await FetchCountryRegion(api_key, country);
-        console.log("Fetched regions:", regions);
-        if (regions?.data?.data) {
-          setCities(regions.data.data);
-        } else {
-          console.error("No city data received");
-        }
+        setCities(regions?.data?.data || []);
+        console.log(regions?.data?.data?.[e.target.value].name)
       } catch (error) {
-        console.error("Error fetching cities:", error);
+        console.error("Error fetching regions:", error);
       } finally {
         setLoading(false);
       }
     }
-    getCities();
-  }, [country, api_key]);
+    if (country) {
+      getCities();
+    }
+  }, [country]);
   // const regions = null;
   // console.log("country",country)
 
   const handleChange = (e) => {
-    const selectedCity = all_cities.find(city => city.name === e.target.value);
-    setInputData({ ...inputData, city: selectedCity.name });
-    console.log("cities", all_cities[e.target.value].name.toLowerCase());
-    if (selectedCity) {
-      setInputData({ ...inputData, city: selectedCity.name });
-      setCenterCoords({
-        ...centerCoords,
-        lat: selectedCity.lat,
-        lng: selectedCity.lng,
-      });
-      sessionStorage.setItem("region", selectedCity.name.toLowerCase());
-    }
-    // // sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
+    setInputData({ ...inputData, city: all_cities[e.target.value].name });
+    console.log("dsdsdddddddd", all_cities[e.target.value].name.toLowerCase());
+    
+    sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
     // sessionStorage.setItem(
     //   "region",
     //   all_cities[e.target.value].name.toLowerCase()
     // );
 
-    // setCenterCoords({
-    //   ...centerCoords,
-    //   lat: all_cities[e.target.value].lat,
-    //   lon: all_cities[e.target.value].lon,
-    // });
+    console.log("Selected City Name:", all_cities);
+    
+    setCenterCoords({
+      ...centerCoords,
+      lat: all_cities[e.target.value].lat,
+      lon: all_cities[e.target.value].lon,
+    });
   };
   const data = {
     data: [
@@ -525,7 +515,7 @@ export default function LocationDropdown({ country }) {
         country: "kenya",
       },
       {
-        name: "Londiani",
+        name: "londiani",
         coordinates: "-0.16552, 35.59359",
         lat: -0.16552,
         lon: 35.59359,
@@ -1129,7 +1119,7 @@ export default function LocationDropdown({ country }) {
             {item.name}
           </option>
         ))}
-      </select>
+      </select>                                                                                                                                                                                                                                                                                                                             
       {loading && (
         <ClipLoader
           color="#000000"

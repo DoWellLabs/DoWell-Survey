@@ -15,11 +15,11 @@ const MainMap = ({
   heightOfCostumeTracker,
 }) => {
   // const circleRef = useRef(null);
-  const { centerCoords, zoom, mapAPIKey, circleSize, handleMapChange } =
+  const {  zoom, mapAPIKey, circleSize, handleMapChange } =
     useGlobalContext();
   // const [mapCenter, setMapCenter] = useState({ lat: centerCoords.lat, lng: centerCoords.lng });
   const [mapKey, setMapKey] = useState(0);
-
+  const [mapCenter, setMapCenter] = useState({ lat: 48.85661400, lng: 2.35222190 });
   const handleMapLoad = (map) => {
     // Now you can use the map instance here
     console.log("Map instance:", map);
@@ -31,14 +31,18 @@ const MainMap = ({
     //   });
     // }
   };
-
+  // const mapCenter = centerCoords && centerCoords.lat && centerCoords.lng
+  //   ? { lat: centerCoords.lat, lng: centerCoords.lng }
+  //   : { lat: 0, lng: 0 };
   useEffect(() => {
-    if (centerCoords) {
+    if (centerCords) {
+      setMapCenter({ lat: centerCords.lat, lng: centerCords.lng });
+      console.log('mapCenter', centerCords)
       // setMapCenter({ lat: centerCords.lat, lng: centerCords.lng });
       // Update the key to force re-render when the center changes
       setMapKey((prevKey) => prevKey + 1);
     }
-  }, [centerCoords]);
+  }, [centerCords]);
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
@@ -49,25 +53,19 @@ const MainMap = ({
           id={"mymap"}
           key={mapKey} // Add a key to force re-render
           zoom={12}
-          center={centerCoords}
+          center={mapCenter}
           onLoad={handleMapLoad}
           style={{ height: "100%", width: "100%", zIndex: "1" }}
-          onCenterChanged={(map) =>
-           console.log('map', map)
-          }
-          onZoomChanged={(map) =>
-           console.log('map', map)
-          }
+          onCenterChanged={(newCenter) => handleMapChange(newCenter, zoom)}
+          onZoomChanged={(newZoom) => handleMapChange(centerCoords, newZoom)}
         >
           <div className="">
-            <AdvancedMarker
-              position={centerCoords}
-            >
-              <Marker position={centerCoords}></Marker>
+            <AdvancedMarker position={mapCenter}>
+              <Marker position={mapCenter}></Marker>
               <Circle
                 width={circleSize.width}
                 height={circleSize.height}
-                center={centerCoords}
+                center={mapCenter}
               />
             </AdvancedMarker>
           </div>

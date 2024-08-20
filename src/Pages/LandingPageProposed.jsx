@@ -301,12 +301,12 @@ const LandingPage = () => {
     // setArea({ area_of_one: area_of_one, area_inner: area_inner });
     setSearchData({
       center_lat: centerCoords.lat,
-      center_lng: centerCoords.lng,
+      center_lon: centerCoords.lon,
       query_string: inputData.query_string,
       radius2: inputData.radius2,
     });
 
-    const search_cords = centerCoords.lat + "," + centerCoords.lng;
+    const search_cords = centerCoords.lat + "," + centerCoords.lon;
     setSearchCords(search_cords);
 
     setSearchRegion(inputData.city);
@@ -553,7 +553,7 @@ function getMetersPerPixel(latitude, zoomLevel) {
             <MainMap
               centerCords={{
                 lat: centerCoords.lat,
-                lng: centerCoords.lng
+                lng: centerCoords.lon
               }}
               widthOfCostumeTracker={widthOfCostumeTracker} heightOfCostumeTracker= {heightOfCostumeTracker}
               pins={null}
