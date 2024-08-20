@@ -56,8 +56,7 @@ const MainMap = ({
           center={mapCenter}
           onLoad={handleMapLoad}
           style={{ height: "100%", width: "100%", zIndex: "1" }}
-          onCenterChanged={(newCenter) => handleMapChange(newCenter, zoom)}
-          onZoomChanged={(newZoom) => handleMapChange(centerCoords, newZoom)}
+          
         >
           <div className="">
             <AdvancedMarker position={mapCenter}>
