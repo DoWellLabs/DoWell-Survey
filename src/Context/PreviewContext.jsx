@@ -22,18 +22,17 @@ const PreviewProvider = ({ children }) => {
 
   const [centerCoords, setCenterCoords] = useState({
     lat: 48.856614,
-    lng: 2.3522219,
+    lon: 2.3522219,
   });
   const [inputData, setInputData] = useState({
     country: "",
     city: "",
     query_string: "",
-    // radius1: "",
     radius2: 0,
   });
   const [zoom, setZoom] = useState(12);
   const [sliderValue, setSliderValue] = useState(0);
-  const [circleSize, setCircleSize] = useState({ width: '0px', height: '0px' });
+  const [circleSize, setCircleSize] = useState({ width: "0px", height: "0px" });
   // Calculate circle size based on slider value, latitude, and zoom
   useEffect(() => {
     const maxMeters = 15000;
@@ -65,7 +64,10 @@ const PreviewProvider = ({ children }) => {
     setCenterCoords(newCenter);
     setZoom(newZoom);
   };
-
+  const updateLocation = (country, city, lat, lon) => {
+    setInputData({ country, city });
+    setCenterCoords({ lat, lon });
+  };
   return (
     <PreviewContext.Provider
       value={{
@@ -73,6 +75,7 @@ const PreviewProvider = ({ children }) => {
         loading,
         inputData,
         setInputData,
+        updateLocation,
         setAPIKey,
         api_key,
         setCenterCoords,

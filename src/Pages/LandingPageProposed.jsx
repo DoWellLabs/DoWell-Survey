@@ -553,7 +553,7 @@ function getMetersPerPixel(latitude, zoomLevel) {
             <MainMap
               centerCords={{
                 lat: centerCoords.lat,
-                lng: centerCoords.lng
+                lng: centerCoords.lon
               }}
               widthOfCostumeTracker={widthOfCostumeTracker} heightOfCostumeTracker= {heightOfCostumeTracker}
               pins={null}
@@ -636,7 +636,7 @@ function getMetersPerPixel(latitude, zoomLevel) {
                 {/* create loader spinner when regions are still being loaded from api */}
                 <div>
                   <h2 className="font-semibold text-white">Region</h2>
-                  <LocationDropdown loading={loading} country={"france"} />
+                  <LocationDropdown loading={loading} country={inputData.country}  />
                 </div>
               </div>
 

@@ -18,14 +18,19 @@ export default function LocationDropdown({ country }) {
   useEffect(() => {
     async function getCities() {
       setLoading(true);
-      const regions = await FetchCountryRegion(api_key, country);
-      setCities(regions?.data?.data);
-      // console.log("key",api_key)
-      // console.log(country)
-      // console.log("all_cities",all_cities)
-      setLoading(false);
+      try {
+        const regions = await FetchCountryRegion(api_key, country);
+        setCities(regions?.data?.data || []);
+        console.log(regions?.data?.data?.[e.target.value].name)
+      } catch (error) {
+        console.error("Error fetching regions:", error);
+      } finally {
+        setLoading(false);
+      }
     }
-    getCities();
+    if (country) {
+      getCities();
+    }
   }, [country]);
   // const regions = null;
   // console.log("country",country)
@@ -33,13 +38,15 @@ export default function LocationDropdown({ country }) {
   const handleChange = (e) => {
     setInputData({ ...inputData, city: all_cities[e.target.value].name });
     console.log("dsdsdddddddd", all_cities[e.target.value].name.toLowerCase());
+    
+    sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
+    // sessionStorage.setItem(
+    //   "region",
+    //   all_cities[e.target.value].name.toLowerCase()
+    // );
 
-    // sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
-    sessionStorage.setItem(
-      "region",
-      all_cities[e.target.value].name.toLowerCase()
-    );
-
+    console.log("Selected City Name:", all_cities);
+    
     setCenterCoords({
       ...centerCoords,
       lat: all_cities[e.target.value].lat,
@@ -508,7 +515,7 @@ export default function LocationDropdown({ country }) {
         country: "kenya",
       },
       {
-        name: "Londiani",
+        name: "londiani",
         coordinates: "-0.16552, 35.59359",
         lat: -0.16552,
         lon: 35.59359,
@@ -1102,7 +1109,6 @@ export default function LocationDropdown({ country }) {
         id="country"
         name="country"
         value={all_cities?.findIndex((city) => city.name === inputData.city)}
-       
         autoComplete="country-name"
         onChange={(e) => handleChange(e)}
         className="select w-[15vw] h-[33px] bg-[#D9D9D9]"

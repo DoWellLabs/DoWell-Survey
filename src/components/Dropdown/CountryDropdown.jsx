@@ -17,7 +17,7 @@ export default function CountryDropdown() {
       setLoading(true)
       const response = await FetchCountries(api_key);
       setAllCountries(response?.data?.data[0]?.countries);
-      //console.log(response?.data?.data[0]?.countries)
+      console.log(response?.data?.data[0]?.countries)
       setLoading(false);
     }
     getCountries();
@@ -298,10 +298,10 @@ export default function CountryDropdown() {
         }}
         className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
       >
-        <option>{loading ? "Loading..." : "France"}</option>
-        {/* {allCountries?.map((item, index) => (
+        <option>{loading ? "Loading..." : "Select country"}</option>
+        {allCountries?.map((item, index) => (
         <option key={index}>{item}</option>
-      ))} */}
+      ))}
       </select>
       {loading && (
         <ClipLoader
