@@ -3,10 +3,10 @@ import React, { useEffect } from "react";
 const RedirectToExternalWebsite = () => {
   useEffect(() => {
     // Redirect to the external website
-    // window.location.href =
-    //   "https://100014.pythonanywhere.com/?redirect_url=https://dowelllabs.github.io/DoWell-Survey/"; // or use window.location.replace
     window.location.href =
-      "https://100014.pythonanywhere.com/?redirect_url=http://localhost:5173/DoWell-Survey/";
+      "https://100014.pythonanywhere.com/?redirect_url=https://dowelllabs.github.io/DoWell-Survey/"; // or use window.location.replace
+    // window.location.href =
+    //   "https://100014.pythonanywhere.com/?redirect_url=http://localhost:5173/DoWell-Survey/";
     // window.location.href =
     // "http://localhost:5173/DoWell-Survey/";
     // window.location.href =
