@@ -95,14 +95,16 @@ const SurveyIframe = () => {
                     let formatted_address = results[0].formatted_address;
                     console.log("The formatted_address data is", formatted_address);
                     var addressComponents = results[0].address_components;
-                    for (var i = 0; i < addressComponents.length; i++) {
-                      var types = addressComponents[i].types;
-                      if (types.includes("locality")) {
-                        the_region =
-                          addressComponents[i].long_name.toLowerCase();
-                        break;
-                      }
-                    }
+                    console.log("The addressComponents data is", addressComponents);
+                    the_region = formatted_address
+                    // for (var i = 0; i < addressComponents.length; i++) {
+                    //   var types = addressComponents[i].types;
+                    //   if (types.includes("locality")) {
+                    //     the_region =
+                    //       addressComponents[i].long_name.toLowerCase();
+                    //     break;
+                    //   }
+                    // }
                   }
 
                   //const the_region_hyphen = Array.from(the_region).join('-');
