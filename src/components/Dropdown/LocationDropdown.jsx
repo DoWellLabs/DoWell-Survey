@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 export default function LocationDropdown({ country }) {
   const { inputData, setInputData, setCenterCoords, centerCoords, api_key } = useGlobalContext();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [all_cities, setCities] = useState();
   // const { data:regions } = useQuery({
   //     queryFn: async () => FetchCountryRegion( "e0ab32cf-7bd2-47e7-b2af-2448262ec41e", country),
@@ -38,7 +38,7 @@ export default function LocationDropdown({ country }) {
   const handleChange = (e) => {
     setInputData({ ...inputData, city: all_cities[e.target.value].name });
     console.log("dsdsdddddddd", all_cities[e.target.value].name.toLowerCase());
-    
+
     sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
     // sessionStorage.setItem(
     //   "region",
@@ -46,7 +46,7 @@ export default function LocationDropdown({ country }) {
     // );
 
     console.log("Selected City Name:", all_cities);
-    
+
     setCenterCoords({
       ...centerCoords,
       lat: all_cities[e.target.value].lat,
@@ -1119,7 +1119,7 @@ export default function LocationDropdown({ country }) {
             {item.name}
           </option>
         ))}
-      </select>                                                                                                                                                                                                                                                                                                                             
+      </select>
       {loading && (
         <ClipLoader
           color="#000000"
