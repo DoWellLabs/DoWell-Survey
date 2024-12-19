@@ -58,11 +58,11 @@ const SurveyIframe = () => {
       setStatus("done");
 
       toast.success("Thanks for your response", {
-        onClose: () => {},
+        onClose: () => { },
       });
     } catch (error) {
       toast.error("An error has occured", {
-        onClose: () => {},
+        onClose: () => { },
       });
     }
   };
@@ -92,6 +92,8 @@ const SurveyIframe = () => {
                   let the_region;
                   if (results[0]) {
                     // Parse address components to find city
+                    let formatted_address = results[0].formatted_address;
+                    console.log("The formatted_address data is", formatted_address);
                     var addressComponents = results[0].address_components;
                     for (var i = 0; i < addressComponents.length; i++) {
                       var types = addressComponents[i].types;
@@ -128,7 +130,7 @@ const SurveyIframe = () => {
 
                     if (response?.data?.isSuccess === true) {
                       const partLimit_array = Object.values(response?.data?.survey_data?.participantsLimit);
-                      console.log("partLimit_array", partLimit_array); 
+                      console.log("partLimit_array", partLimit_array);
 
                       if (partLimit_array < 1) {
                         setStatus("error");
@@ -139,7 +141,7 @@ const SurveyIframe = () => {
                           window.location.search
                         );
                         const survey_id = queryParams.get("survey_id");
-  
+
                         try {
                           const id_response = await axios.post(
                             `https://100025.pythonanywhere.com/my-survey/?api_key=1b834e07-c68b-4bf6-96dd-ab7cdc62f07f`,
@@ -158,12 +160,12 @@ const SurveyIframe = () => {
                             id_response?.data[1].region
                           );
                           setRegion_list(id_response?.data[1].region);
-  
+
                           setIframe(id_response?.data[1].url);
                           setPromotional(id_response?.data[1].promotional_sentence)
-                          
+
                         } catch (error) {
-                          
+
                           setStatus("error");
                           setErrMsg("Error in fetching Survey Form");
                         }
@@ -251,7 +253,7 @@ const SurveyIframe = () => {
                         <button
                           className="font-serif font-bold text-center m-4"
                           onClick={() => setOpen(false)}
-                          //ref={headingRef}
+                        //ref={headingRef}
                         >
                           <XMarkIcon className="h-6 w-6 m-1" />
                         </button>
@@ -320,39 +322,39 @@ const SurveyIframe = () => {
         ) : status === "done" ? (
 
           <>
-          <div className="text-2xl text-center font-bold font-serif w-full h-full flex items-center justify-center py-8">
-            Thanks for taking out time to fill our survey form
-          </div>
+            <div className="text-2xl text-center font-bold font-serif w-full h-full flex items-center justify-center py-8">
+              Thanks for taking out time to fill our survey form
+            </div>
 
-        </>
+          </>
         ) : (
           <>
             <div className="text-2xl text-center font-bold font-serif py-4">
-            {promotional}
+              {promotional}
 
               <div className="flex items-center justify-center py-4">
-              <div className="bg-[#7ED957] flex items-center justify-center p-2 border-2 border-black">
-                <div className="p-1 border-2 border-black">
-                  <QRCode
-                    size={40}
-                    bgColor="white"
-                    fgColor="black"
-                    value="https://uxlivinglab.com/"
-                  />
-                </div>
+                <div className="bg-[#7ED957] flex items-center justify-center p-2 border-2 border-black">
+                  <div className="p-1 border-2 border-black">
+                    <QRCode
+                      size={40}
+                      bgColor="white"
+                      fgColor="black"
+                      value="https://uxlivinglab.com/"
+                    />
+                  </div>
 
-                <div className="text-center text-sm mx-1 font-semibold">
-                  Please Click done after submitting this form{" "}
+                  <div className="text-center text-sm mx-1 font-semibold">
+                    Please Click done after submitting this form{" "}
+                  </div>
+                  <button
+                    onClick={handleDone}
+                    className="text-sm p-2 font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
+                  >
+                    Done
+                  </button>
                 </div>
-                <button
-                  onClick={handleDone}
-                  className="text-sm p-2 font-serif font-semibold bg-[#005734] opacity-80 hover:opacity-100 text-[white] rounded-md"
-                >
-                  Done
-                </button>
               </div>
-            </div>
-            
+
               <div className="flex items-center justify-center p-2">
                 <iframe
                   className="border-2 border-green-500 h-screen"
@@ -366,7 +368,7 @@ const SurveyIframe = () => {
                 </iframe>
               </div>
             </div>
-          
+
           </>
         )}
       </div>
