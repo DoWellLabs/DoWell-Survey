@@ -196,6 +196,8 @@ const SurveyIframe = () => {
               }
             }
           );
+        }, (error) => {
+          console.error("Error:", error);
         }, {
           enableHighAccuracy: true, // Use GPS if available
           timeout: 10000,          // 10 seconds timeout
