@@ -8,7 +8,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 export default function LocationDropdown({ country }) {
   const { inputData, setInputData, setCenterCoords, centerCoords, api_key } = useGlobalContext();
   const [loading, setLoading] = useState(false);
-  const [all_cities, setCities] = useState();
+  const [all_cities, setCities] = useState([]);
   // const { data:regions } = useQuery({
   //     queryFn: async () => FetchCountryRegion( "e0ab32cf-7bd2-47e7-b2af-2448262ec41e", country),
   //     queryKey: 'regions',
