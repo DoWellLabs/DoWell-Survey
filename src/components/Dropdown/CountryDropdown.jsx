@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import FetchCountries from "../../data/fetchCountries";
 import ClipLoader from "react-spinners/ClipLoader";
-
+import Select from "react-select";
 export default function CountryDropdown() {
   const [loading, setLoading] = useState(true);
   const { setInputData, inputData, api_key } = useGlobalContext();
@@ -286,29 +286,23 @@ export default function CountryDropdown() {
   const countries = data?.data[0]?.countries;
   return (
     <div className="relative w-[15vw]">
-      <select
-        disabled={loading}
-        id="country"
-        name="country"
-        value={inputData.country}
-        autoComplete="country-name"
-        onChange={(e) => {
-          sessionStorage.setItem("country", JSON.stringify(e.target.value));
-          setInputData({ ...inputData, country: e.target.value });
-        }}
-        className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
-      >
-        <option>{loading ? "Loading..." : "Select country"}</option>
-        {allCountries?.map((item, index) => (
-        <option key={index}>{item}</option>
-      ))}
-      </select>
-      {loading && (
+      {loading ? (
         <ClipLoader
           color="#000000"
           loading={loading}
           size={20}
           className="absolute right-6 top-1/4 transform -translate-y-1/2"
+        />
+      ) : (
+        <Select
+          options={allCountries}
+          isSearchable
+          isClearable
+          placeholder="Select a country"
+          onChange={handleChange}
+          value={allCountries.find((option) => option.value === inputData.country) || null}
+          className="react-select-container"
+          classNamePrefix="react-select"
         />
       )}
     </div>
