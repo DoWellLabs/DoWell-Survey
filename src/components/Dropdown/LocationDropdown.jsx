@@ -2,6 +2,7 @@ import { useGlobalContext } from "../../Context/PreviewContext";
 import PropTypes from "prop-types";
 import { useQuery } from "react-query";
 import FetchCountryRegion from "../../data/fetchCountryRegion";
+import Select from "react-select";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 export default function LocationDropdown({ country }) {
