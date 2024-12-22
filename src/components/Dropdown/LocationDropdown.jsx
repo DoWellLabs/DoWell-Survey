@@ -35,23 +35,36 @@ export default function LocationDropdown({ country }) {
   // const regions = null;
   // console.log("country",country)
 
-  const handleChange = (e) => {
-    setInputData({ ...inputData, city: all_cities[e.target.value].name });
-    console.log("dsdsdddddddd", all_cities[e.target.value].name.toLowerCase());
+  // const handleChange = (e) => {
+  //   setInputData({ ...inputData, city: all_cities[e.target.value].name });
+  //   console.log("dsdsdddddddd", all_cities[e.target.value].name.toLowerCase());
 
-    sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
-    // sessionStorage.setItem(
-    //   "region",
-    //   all_cities[e.target.value].name.toLowerCase()
-    // );
+  //   sessionStorage.setItem("region", JSON.stringify(all_cities[e.target.value].name.toLowerCase()));
+  //   // sessionStorage.setItem(
+  //   //   "region",
+  //   //   all_cities[e.target.value].name.toLowerCase()
+  //   // );
 
-    console.log("Selected City Name:", all_cities);
+  //   console.log("Selected City Name:", all_cities);
 
-    setCenterCoords({
-      ...centerCoords,
-      lat: all_cities[e.target.value].lat,
-      lon: all_cities[e.target.value].lon,
-    });
+  //   setCenterCoords({
+  //     ...centerCoords,
+  //     lat: all_cities[e.target.value].lat,
+  //     lon: all_cities[e.target.value].lon,
+  //   });
+  // };
+  const handleChange = (selectedOption) => {
+    if (selectedOption) {
+      const selectedCity = allCities[selectedOption.value];
+      setInputData({ ...inputData, city: selectedCity.name });
+      sessionStorage.setItem("region", selectedCity.name.toLowerCase());
+
+      setCenterCoords({
+        ...centerCoords,
+        lat: selectedCity.lat,
+        lon: selectedCity.lon,
+      });
+    }
   };
   const data = {
     data: [
@@ -1102,30 +1115,26 @@ export default function LocationDropdown({ country }) {
   // }, [])
 
   const cities = data?.data;
+  const cityOptions = allCities.map((city, index) => ({
+    value: index,
+    label: city.name,
+  }));
   return (
     <div className="relative w-[15vw]">
-      <select
-        disabled={loading}
-        id="country"
-        name="country"
-        value={all_cities?.findIndex((city) => city.name === inputData.city)}
-        autoComplete="country-name"
-        onChange={(e) => handleChange(e)}
-        className="select w-[15vw] h-[33px] bg-[#D9D9D9]"
-      >
-        <option>Select region</option>
-        {all_cities?.map((item, index) => (
-          <option value={index} key={index}>
-            {item.name}
-          </option>
-        ))}
-      </select>
-      {loading && (
+      {loading ? (
         <ClipLoader
           color="#000000"
           loading={loading}
           size={20}
           className="absolute right-6 top-1/4 transform -translate-y-1/2"
+        />
+      ) : (
+        <Select
+          options={cityOptions}
+          onChange={handleChange}
+          placeholder="Select region"
+          isDisabled={loading}
+          className="w-[15vw] h-[33px]"
         />
       )}
     </div>
