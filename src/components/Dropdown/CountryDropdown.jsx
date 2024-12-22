@@ -284,6 +284,10 @@ export default function CountryDropdown() {
     ],
   };
   const countries = data?.data[0]?.countries;
+  const handleChange = (selectedOption) => {
+    sessionStorage.setItem("country", JSON.stringify(selectedOption?.value || ""));
+    setInputData({ ...inputData, country: selectedOption?.value });
+  };
   return (
     <div className="relative w-[15vw]">
       {loading ? (
