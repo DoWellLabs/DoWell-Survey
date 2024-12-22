@@ -55,7 +55,7 @@ export default function LocationDropdown({ country }) {
   // };
   const handleChange = (selectedOption) => {
     if (selectedOption) {
-      const selectedCity = allCities[selectedOption.value];
+      const selectedCity = all_cities[selectedOption.value];
       setInputData({ ...inputData, city: selectedCity.name });
       sessionStorage.setItem("region", selectedCity.name.toLowerCase());
 
@@ -1115,7 +1115,7 @@ export default function LocationDropdown({ country }) {
   // }, [])
 
   const cities = data?.data;
-  const cityOptions = allCities.map((city, index) => ({
+  const cityOptions = all_cities.map((city, index) => ({
     value: index,
     label: city.name,
   }));
