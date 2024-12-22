@@ -17,8 +17,15 @@ export default function CountryDropdown() {
     async function getCountries() {
       setLoading(true)
       const response = await FetchCountries(api_key);
-      setAllCountries(response);
-      console.log(response)
+      const countries = response?.data?.data[0]?.countries || []; // Safely access countries array
+
+      // Transform the countries into the desired format
+      const transformedCountries = countries.map((country) => ({
+        label: country.charAt(0).toUpperCase() + country.slice(1), // Capitalize the first letter
+        value: country,
+      }));
+      setAllCountries(transformedCountries);
+      console.log(transformedCountries)
       setLoading(false);
     }
     getCountries();

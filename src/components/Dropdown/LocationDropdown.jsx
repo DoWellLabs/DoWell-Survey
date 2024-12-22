@@ -1115,10 +1115,10 @@ export default function LocationDropdown({ country }) {
   // }, [])
 
   const cities = data?.data;
-  const cityOptions = all_cities.map((city, index) => ({
-    value: index,
-    label: city.name,
-  }));
+  // const cityOptions = all_cities.map((city, index) => ({
+  //   value: index,
+  //   label: city.name,
+  // }));
   return (
     <div className="relative w-[15vw]">
       {loading ? (
@@ -1130,7 +1130,10 @@ export default function LocationDropdown({ country }) {
         />
       ) : (
         <Select
-          options={cityOptions}
+          options={all_cities.map((city, index) => ({
+            value: index,
+            label: city.name,
+          }))}
           onChange={handleChange}
           placeholder="Select region"
           isDisabled={loading}
