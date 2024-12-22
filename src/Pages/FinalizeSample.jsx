@@ -74,7 +74,7 @@ const FinalizeSample = () => {
       console.log("Unique regions before setting to session", uniqueRegions);
       console.log("uniqueCords---> ", uniqueCords[0]);
       sessionStorage.setItem("region", JSON.stringify(uniqueRegions).replace(/"/g, "'"));
-
+      sessionStorage.setItem("country", "all");
       sessionStorage.setItem("coords", uniqueCords[0]);
     }
 

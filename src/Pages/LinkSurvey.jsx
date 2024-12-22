@@ -60,7 +60,7 @@ const LinkSurvey = () => {
   //     : null;
 
   // Access individual properties
-  const country = sessionStorage.getItem("country");
+  const country = sessionStorage.getItem("country") || "All";
   const region = sessionStorage.getItem("region");
   const the_region = JSON.parse(region);
   console.log("aaaaaaaaa", the_region);
