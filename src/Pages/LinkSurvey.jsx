@@ -181,7 +181,7 @@ const LinkSurvey = () => {
     name: name,
     email: email,
     service: product,
-    country: "nigeria",
+    country: country,
     region: the_region,
     participantsLimit: numOfParticipants,
     url: formLink,
@@ -191,7 +191,7 @@ const LinkSurvey = () => {
   };
 
 
-  
+
 
   console.log("the forrm data is", formData);
 

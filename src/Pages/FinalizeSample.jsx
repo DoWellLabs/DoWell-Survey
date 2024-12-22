@@ -72,7 +72,9 @@ const FinalizeSample = () => {
     } //surveyType === regional
     else {
       console.log("Unique regions before setting to session", uniqueRegions);
+      console.log("uniqueCords---> ", uniqueCords[0]);
       sessionStorage.setItem("region", JSON.stringify(uniqueRegions).replace(/"/g, "'"));
+
       sessionStorage.setItem("coords", uniqueCords[0]);
     }
 
