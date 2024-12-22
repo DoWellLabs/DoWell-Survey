@@ -8,6 +8,7 @@ export default function CountryDropdown() {
   const [loading, setLoading] = useState(true);
   const { setInputData, inputData, api_key } = useGlobalContext();
   const [allCountries, setAllCountries] = useState();
+  console.log("All countries", allCountries)
   // const { data } = useQuery({
   //     queryFn: async () => FetchCountries(""),
   //     queryKey: 'countries'
