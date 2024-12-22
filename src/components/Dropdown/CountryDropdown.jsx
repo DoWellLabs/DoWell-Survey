@@ -17,8 +17,8 @@ export default function CountryDropdown() {
     async function getCountries() {
       setLoading(true)
       const response = await FetchCountries(api_key);
-      setAllCountries(response?.data?.data[0]?.countries);
-      console.log(response?.data?.data[0]?.countries)
+      setAllCountries(response);
+      console.log(response)
       setLoading(false);
     }
     getCountries();
@@ -284,7 +284,7 @@ export default function CountryDropdown() {
       },
     ],
   };
-  const countries = data?.data[0]?.countries;
+  // const countries = data?.data[0]?.countries;
   const handleChange = (selectedOption) => {
     sessionStorage.setItem("country", JSON.stringify(selectedOption?.value || ""));
     setInputData({ ...inputData, country: selectedOption?.value });

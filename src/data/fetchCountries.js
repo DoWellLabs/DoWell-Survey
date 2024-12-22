@@ -13,7 +13,7 @@ export default async function FetchCountries(api_key) {
             label: country.charAt(0).toUpperCase() + country.slice(1), // Capitalize the first letter
             value: country,
         }));
-        console.error("Error fetching transformedCountries:", transformedCountries);
+        // console.log("Successfully fetching transformedCountries:", transformedCountries);
 
         return transformedCountries;
     } catch (error) {
