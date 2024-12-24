@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./pages.css";
 import { showToast } from "./showToast";
+import getEmailTemplate from "../data/emailTemplate"
+
 import {
   MapPinIcon,
   PencilSquareIcon,
@@ -1122,65 +1124,8 @@ export const EmailSms = () => {
 
   const navigate = useNavigate();
 
-  const formTemplate = `<!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Survey Confirmation</title>
-      <style>
-        body {
-          font-family: "Arial", sans-serif;
-          background-color: #f4f4f4;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-        }
-        .details {
-          font-size: 16px;
-          line-height: 1.5;
-          color: #333;
-          margin-top: 50px;
-        }
-        .qr-code {
-          max-width: 100%;
-          height: auto;
-        }
-      </style>
-    </head>
-    <body>
-      <p>Dear User,</p>
-      <p>
-        This is to confirm that a survey, <strong>${updatedInfo}</strong>,
-        has been successfully created on our platform. Below, you'll find the
-        details of the created survey. You can share the QR Code/Link with intended
-        participants or on your platforms.
-      </p>
-      <div class="details">
-        <ul>
-          ${startToEnd}
-          <li>
-            Maximum Number of Participants/Responses:
-            <strong>${numOfParticipant}</strong>
-          </li>
-          <li>
-            Target Location/Audience:
-            <strong>${regionValue} Region's</strong>
-          </li>
-          <li>QR Code Link: <strong>${getQrcode}</strong></li>
-          <li>Click <a href="${surveyLink}">HERE</a> to take the survey</li>
-          
-        </ul>
-      </div>
-      <h2>QR Code:</h2>
-      <img
-        src="${getQrcode}"
-        alt="QR Code"
-        style="max-width: 200px; height: 200px"
-      />
-    </body>
-  </html>
-  `;
+  const formTemplate = getEmailTemplate(updatedInfo, startToEnd,
+    numOfParticipant, regionValue, getQrcode, surveyLink);
 
   const handleNumberToggle = (number) => {
     setSelectedNumbers((prevNumbers) => {

@@ -5,6 +5,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import getEmailTemplate from "../data/emailTemplate"
 import "./pages.css";
 import {
   MapPinIcon,
@@ -565,7 +566,7 @@ const EmailCsvModal = ({
     // Assuming the first column in the CSV file contains the list of numbers
 
     const numbersColumnIndex = 0;
-    
+
     const extractedMails = data.map((row, index) => ({
       email: row[0],
       name: row[0],
@@ -693,7 +694,7 @@ const EmailCsvModal = ({
 
                       <CSVReader
                         onFileLoaded={handleCSVRead}
-                        onError={()=> alert("file format supported")}
+                        onError={() => alert("file format supported")}
                         accept=".csv"
                         inputStyle={{
                           position: "absolute",
