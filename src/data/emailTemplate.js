@@ -1,5 +1,5 @@
 
-export default async function getModalEmailTemplate(name, startDate, endDate, numOfParticipant,
+export async function getModalEmailTemplate(name, startDate, endDate, numOfParticipant,
     targetLocation, getQrcode) {
 
 
@@ -135,7 +135,7 @@ export default async function getModalEmailTemplate(name, startDate, endDate, nu
 
 
 
-export default async function getEmailTemplate(updatedInfo, startToEnd,
+export async function getEmailTemplate(updatedInfo, startToEnd,
     numOfParticipant, regionValue, getQrcode, surveyLink) {
 
     const oldEmailTemplate = `<!DOCTYPE html>
