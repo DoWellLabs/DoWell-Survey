@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./pages.css";
 import { showToast } from "./showToast";
-import getEmailTemplate from "../data/emailTemplate"
+import { getEmailTemplate } from "../data/emailTemplate"
 
 import {
   MapPinIcon,

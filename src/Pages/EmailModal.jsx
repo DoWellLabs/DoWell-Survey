@@ -2,7 +2,7 @@ import axios from "axios";
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import getModalEmailTemplate from "../data/emailTemplate"
+import { getModalEmailTemplate } from "../data/emailTemplate"
 import "react-toastify/dist/ReactToastify.css";
 
 const EmailModal = () => {
@@ -63,7 +63,7 @@ const EmailModal = () => {
       fromname: userName,
       fromemail: userEmail,
       subject: "Survey Creation Confirmation",
-      email_content: getEmailTemplate(name ? name : "", surveyData1.startDate,
+      email_content: getModalEmailTemplate(name ? name : "", surveyData1.startDate,
         surveyData1.endDate, numOfParticipant, regionArray.length > 0 ? regionValue : defaultRegionValue,
         getQrcode
       ),
