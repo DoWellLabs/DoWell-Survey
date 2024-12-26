@@ -6,6 +6,7 @@
   "index.html": {
     "assets": [
       "assets/logonew-82c512b4.png",
+      "assets/new_survey_logo-bcde2425.png",
       "assets/error-c827f698.png",
       "assets/closed-24118ce3.png",
       "assets/total-e40f9d86.png",
@@ -17,7 +18,7 @@
     "css": [
       "assets/index-4b9ca634.css"
     ],
-    "file": "assets/index-448dcc5d.js",
+    "file": "assets/index-58edc706.js",
     "isEntry": true,
     "src": "index.html"
   },
@@ -64,6 +65,10 @@
   "src/assets/mapicon.png": {
     "file": "assets/mapicon-026738f4.png",
     "src": "src/assets/mapicon.png"
+  },
+  "src/assets/new_survey_logo.png": {
+    "file": "assets/new_survey_logo-bcde2425.png",
+    "src": "src/assets/new_survey_logo.png"
   },
   "src/assets/ongoing.png": {
     "file": "assets/ongoing-dc1f735e.png",
