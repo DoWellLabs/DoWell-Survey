@@ -1,11 +1,11 @@
 
 export async function getModalEmailTemplate(name, startDate, endDate, numOfParticipant,
-    targetLocation, getQrcode) {
+  targetLocation, getQrcode) {
 
 
 
 
-    const emailTemplate = `<!DOCTYPE html>
+  const emailTemplate = `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -130,15 +130,15 @@ export async function getModalEmailTemplate(name, startDate, endDate, numOfParti
   </body>
 </html>
 `
-    return emailTemplate
+  return emailTemplate
 }
 
 
 
 export async function getEmailTemplate(updatedInfo, startToEnd,
-    numOfParticipant, regionValue, getQrcode, surveyLink) {
+  numOfParticipant, regionValue, getQrcode, surveyLink) {
 
-    const oldEmailTemplate = `<!DOCTYPE html>
+  const oldEmailTemplate = `<!DOCTYPE html>
       <html lang="en">
         <head>
           <meta charset="UTF-8" />
@@ -201,7 +201,7 @@ export async function getEmailTemplate(updatedInfo, startToEnd,
 
 
 
-    const emailTemplate = `<!DOCTYPE html>
+  const emailTemplate = `<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -337,5 +337,5 @@ export async function getEmailTemplate(updatedInfo, startToEnd,
 
 </html>
 `
-    return emailTemplate
+  return oldEmailTemplate
 }
