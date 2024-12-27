@@ -455,6 +455,7 @@ const EmailCsvModal = ({
     };
 
     try {
+      console.log("Email CSv formdata ", formData)
       const response = await axios.post(
         `https://100085.pythonanywhere.com/api/dowell_bulk_email/`,
         formData,
@@ -470,8 +471,9 @@ const EmailCsvModal = ({
         onClose: () => { },
       });
     } catch (error) {
+      console.log("Email CSv formdata ", formData)
       setCsvSendLoading(false);
-      toast.error("Error in sending mail(s)", {
+      toast.error("Error in sending mail(s )csv ", {
         onClose: () => { },
       });
     }
