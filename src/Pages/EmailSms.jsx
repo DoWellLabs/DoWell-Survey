@@ -168,12 +168,12 @@ const EmailModal = ({
       fromname: "Dowell Surveys",
       fromemail: "user@username.com",
       to_email_list: selectedEmails,
-      subject: "Survey Creation Confirmation",
+      subject: "Survey Creation Confirmations",
       email_content: formTemplate,
     };
 
     try {
-      console.log("Beofre tthe email sent ", formData)
+      console.log("Beofre tthe email sent 1", formData)
       const response = await axios.post(
         `https://100085.pythonanywhere.com/api/dowell_bulk_email/`,
         formData,
@@ -190,7 +190,9 @@ const EmailModal = ({
       });
     } catch (error) {
       setEmailSendLoading(false);
-      toast.error("Error in sending mail(s)", {
+      console.log("Beofre tthe email sent 2", formData)
+      // console.log("Beofre tthe email sent 2", formData)
+      toast.error("Error in sending mail   (s)", {
         onClose: () => { },
       });
     }
