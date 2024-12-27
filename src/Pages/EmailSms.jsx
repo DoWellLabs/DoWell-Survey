@@ -1126,6 +1126,7 @@ export const EmailSms = () => {
 
   const formTemplate = getEmailTemplate(updatedInfo, startToEnd,
     numOfParticipant, regionValue, getQrcode, surveyLink);
+  console.log("formTemplate", formTemplate)
 
   const handleNumberToggle = (number) => {
     setSelectedNumbers((prevNumbers) => {
@@ -1136,7 +1137,7 @@ export const EmailSms = () => {
       }
     });
   };
-
+  console.log("Before we return ", formTemplate)
   return (
     <Layout>
       <main className="w-full">
