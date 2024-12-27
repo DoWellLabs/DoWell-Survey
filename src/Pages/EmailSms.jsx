@@ -173,6 +173,7 @@ const EmailModal = ({
     };
 
     try {
+      console.log("Beofre tthe email sent ", formData)
       const response = await axios.post(
         `https://100085.pythonanywhere.com/api/dowell_bulk_email/`,
         formData,
