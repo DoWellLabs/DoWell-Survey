@@ -135,7 +135,7 @@ export async function getModalEmailTemplate(name, startDate, endDate, numOfParti
 
 
 
-export async function getEmailTemplate(updatedInfo, startToEnd,
+export function getEmailTemplate(updatedInfo, startToEnd,
   numOfParticipant, regionValue, getQrcode, surveyLink) {
 
   const oldEmailTemplate = `<!DOCTYPE html>
