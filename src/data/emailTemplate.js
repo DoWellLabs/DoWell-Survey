@@ -337,5 +337,5 @@ export function getEmailTemplate(updatedInfo, startToEnd,
 
 </html>
 `
-  return oldEmailTemplate
+  return emailTemplate
 }
